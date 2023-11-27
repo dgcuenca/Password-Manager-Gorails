@@ -17,8 +17,14 @@ class PasswordsController < ApplicationController
     #We use that association and this tell rails when instanciate this new password in memory It will automatically
     #have the join table automatically set up for us 
     #@password = current_user.passwords.new(password_params)
-    # The problem with previus code was that new create a password in memory but then the join table desapeer so for this case create would join the password and the user
+    # The problem with previus code was that new create a password in memory but not the user so for this case create would join the password and the user creating both
     @password = current_user.passwords.create(password_params)
+
+    #another alternative is; 
+    # @password = current_user.passwords.create(password_params)
+    # @password.user_passwords.new(user: current_user)
+    #if @password.save
+
     #if @password.save
     #also we cant use save since this generate error 
     if @password.persisted?
@@ -28,6 +34,16 @@ class PasswordsController < ApplicationController
     end
   end
 
+  def edit 
+  end
+
+  def update
+    if @password.update(password_params)
+      redirect_to @password
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
   private
 
   def password_params
