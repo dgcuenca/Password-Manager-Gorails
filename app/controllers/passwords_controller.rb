@@ -30,7 +30,7 @@ class PasswordsController < ApplicationController
 
     # code was working good line 21 but since we add a role we need to change to:
     @password = Password.new(password_params)
-    @password.user_passwords(user: current_user, role: :owner)
+    @password.user_passwords.new(user: current_user, role: :owner)
     #if @password.persisted? commented because line 31
     if @password.save
       redirect_to @password
