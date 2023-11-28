@@ -18,7 +18,7 @@ class PasswordsController < ApplicationController
     #have the join table automatically set up for us 
     #@password = current_user.passwords.new(password_params)
     # The problem with previus code was that new create a password in memory but not the user so for this case create would join the password and the user creating both
-    @password = current_user.passwords.create(password_params)
+    #@password = current_user.passwords.create(password_params)
 
     #another alternative is; 
     # @password = current_user.passwords.create(password_params)
@@ -26,8 +26,13 @@ class PasswordsController < ApplicationController
     #if @password.save
 
     #if @password.save
-    #also we cant use save since this generate error 
-    if @password.persisted?
+    #also we cant use save since this generate error
+
+    # code was working good line 21 but since we add a role we need to change to:
+    @password = Password.new(password_params)
+    @password.user_passwords(user: current_user, role: :owner)
+    #if @password.persisted? commented because line 31
+    if @password.save
       redirect_to @password
     else
       render :new, status: :unprocessable_entity
