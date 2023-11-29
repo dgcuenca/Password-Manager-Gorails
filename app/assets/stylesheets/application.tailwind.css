@@ -11,7 +11,15 @@
     @apply block font-medium;
   }
 
+  input {
+    @apply block;
+  }
+
   input[type="submit"] {
     @apply bg-blue-500 text-white px-4 py-2 rounded;
+  }
+
+  .field {
+    @apply mb-4;
   }
 }
